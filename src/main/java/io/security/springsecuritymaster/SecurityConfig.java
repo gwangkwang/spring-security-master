@@ -11,31 +11,37 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         http
-                .authorizeHttpRequests( auth -> auth.anyRequest().authenticated())
-                .formLogin( Customizer.withDefaults());
+                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+                .formLogin(Customizer.withDefaults());
 
         return http.build();
     }
 
     @Bean
-    public UserDetailsService userDetailsService(){
-        UserDetails user = User.withUsername("user")
+    public UserDetailsService userDetailsService() {
+        UserDetails user1 = User.withUsername("user1")
                 .password("{noop}1111")
-                .roles("USER").build();
+                .roles("USER")
+                .build();
+
         UserDetails user2 = User.withUsername("user2")
                 .password("{noop}1111")
-                .roles("USER").build();
+                .roles("USER")
+                .build();
+
         UserDetails user3 = User.withUsername("user3")
                 .password("{noop}1111")
-                .roles("USER").build();
-        return new InMemoryUserDetailsManager(user,user2,user3);
+                .roles("USER")
+                .build();
+
+        return new InMemoryUserDetailsManager(user1, user2, user3);
     }
 }
